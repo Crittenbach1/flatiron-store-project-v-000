@@ -1,7 +1,22 @@
+<% if @user %>
+  <h1><%= "Signed in as #{@user.email}" %></h1>
+<br>
+  <%= link_to "Sign out", destroy_user_session_path, method: :delete%>
+<%end%>
+<%= link_to "Sign up", new_user_registration_path %><br>
+<%= link_to "sign in", new_user_session_path %>
+
+<br>
 <% @categories.each do |category| %>
   <%= link_to category.title, category_path(category) %>
 <% end %>
 
 <% @items.each do |item| %>
-  <p><%= item.title %> | <%= number_to_currency(item.price) %> | <%= button_to 'Add to Cart', line_items_path(item_id: item) %></p>
+  <p><%= item.title %> | <%= number_to_currency(item.price.to_f/100) %> | <% if @user %> <%= button_to 'Add to Cart', line_items_path(item_id: item) %> <%end%></p>
 <% end %>
+<br>
+
+<% if @current_cart != false %>
+<%= link_to "cart", cart_path(@current_cart) %>
+<%end%>
+Carrt
